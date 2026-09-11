@@ -19,6 +19,7 @@ import GlobalDotField from './components/GlobalDotField';
 import IntroVideo from './components/IntroVideo';
 
 import ServicesSection from './components/ServicesSection';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 
 // Dedicated Full Pages
 import ProjectsPage from './pages/ProjectsPage';
@@ -254,6 +255,7 @@ export default function App() {
           </main>
         </div>
       )}
+      <PWAInstallPrompt />
     </ThemeProvider>
   );
 }

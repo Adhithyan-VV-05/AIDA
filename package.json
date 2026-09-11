@@ -13,6 +13,7 @@
     "build": "node scripts/build-projects-data.mjs && node scripts/build-achievements-data.mjs && node scripts/build-placements-data.mjs && node scripts/build-events-data.mjs && node scripts/build-publications-data.mjs && vite build",
     "faculty:images": "node scripts/build-faculty-images.mjs",
     "core-team:images": "node scripts/build-core-team-images.mjs",
+    "pwa:icons": "node scripts/generate-pwa-icons.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -38,7 +39,8 @@
     "oxlint": "^1.75.0",
     "sharp": "0.34.2",
     "tailwindcss": "^4.3.3",
-    "vite": "^6.4.3"
+    "vite": "^6.4.3",
+    "vite-plugin-pwa": "^1.3.0"
   },
   "optionalDependencies": {
     "@rolldown/binding-win32-x64-msvc": "^1.2.3"
