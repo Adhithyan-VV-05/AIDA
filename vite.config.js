@@ -30,8 +30,12 @@ function watchExcelProjectsPlugin() {
   };
 }
 
-// https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 5174,
+    strictPort: true,
+    host: true,
+  },
   plugins: [
     watchExcelProjectsPlugin(),
     react(),

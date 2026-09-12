@@ -20,6 +20,9 @@ import IntroVideo from './components/IntroVideo';
 
 import ServicesSection from './components/ServicesSection';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
+import LoginPage from './components/LoginPage';
+import BottomNav from './components/BottomNav';
+import SubmissionModal from './components/SubmissionModal';
 
 // Dedicated Full Pages
 import ProjectsPage from './pages/ProjectsPage';
@@ -30,9 +33,24 @@ import EventsPage from './pages/EventsPage';
 import PlacementsPage from './pages/PlacementsPage';
 import PublicationsPage from './pages/PublicationsPage';
 import ServicesPage from './pages/ServicesPage';
+import StudentDashboardPage from './pages/StudentDashboardPage';
+import UploadPage from './pages/UploadPage';
+import SubmissionStatusPage from './pages/SubmissionStatusPage';
 
 function getRouteFromHash() {
   const hash = window.location.hash || '';
+  if (hash.startsWith('#/login')) {
+    return { type: 'login' };
+  }
+  if (hash.startsWith('#/dashboard')) {
+    return { type: 'dashboard' };
+  }
+  if (hash.startsWith('#/upload')) {
+    return { type: 'upload' };
+  }
+  if (hash.startsWith('#/status') || hash.startsWith('#/submissions')) {
+    return { type: 'status' };
+  }
   if (hash.startsWith('#/services')) {
     return { type: 'services' };
   }
@@ -70,6 +88,10 @@ function getRouteFromHash() {
 
 export default function App() {
   const [route, setRoute] = useState(() => getRouteFromHash());
+  const [isSubmissionOpen, setIsSubmissionOpen] = useState(false);
+  const [hasSkipped, setHasSkipped] = useState(() => {
+    return sessionStorage.getItem('aida_skipped_login') === 'true';
+  });
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -122,8 +144,20 @@ export default function App() {
       window.location.hash = `#/faculty/${param}`;
     } else if (pageType === 'project') {
       window.location.hash = `#/project/${param}`;
+    } else if (pageType === 'login') {
+      window.location.hash = '#/login';
     } else {
       window.location.hash = '#projects';
+    }
+  };
+
+  const handleSkipOrLogin = () => {
+    sessionStorage.setItem('aida_skipped_login', 'true');
+    setHasSkipped(true);
+    if (window.location.hash === '#/login' || !window.location.hash || window.location.hash === '#/' || window.location.hash === '#') {
+      window.location.hash = '#/home';
+    } else {
+      setRoute(getRouteFromHash());
     }
   };
 
@@ -136,51 +170,90 @@ export default function App() {
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const currentActiveTab =
+    route.type === 'login'
+      ? 'profile'
+      : route.type === 'dashboard'
+      ? 'dashboard'
+      : route.type === 'upload'
+      ? 'add'
+      : route.type === 'status'
+      ? 'status'
+      : route.type === 'events'
+      ? 'events'
+      : route.type === 'projects' || route.type === 'project'
+      ? 'projects'
+      : route.type === 'faculty'
+      ? 'community'
+      : 'home';
+
+  // Render Login view if explicitly on #/login or on initial visit (if not skipped)
+  if (route.type === 'login' || (!hasSkipped && (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/'))) {
+    return (
+      <LoginPage
+        onLoginSuccess={handleSkipOrLogin}
+        onSkip={handleSkipOrLogin}
+      />
+    );
+  }
+
   return (
     <ThemeProvider>
-      {route.type === 'services' ? (
-        <div className="app-main-wrapper bg-[#080808] relative min-h-screen">
+      {route.type === 'dashboard' ? (
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
+          <StudentDashboardPage onNavigate={handleNavigate} />
+        </div>
+      ) : route.type === 'upload' ? (
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
+          <UploadPage onNavigate={handleNavigate} />
+        </div>
+      ) : route.type === 'status' ? (
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
+          <SubmissionStatusPage onNavigate={handleNavigate} />
+        </div>
+      ) : route.type === 'services' ? (
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
           <GlobalDotField />
           <ServicesPage onNavigate={handleNavigate} />
         </div>
       ) : route.type === 'projects' ? (
-        <div className="app-main-wrapper bg-[#080808] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
           <GlobalDotField />
           <ProjectsPage onNavigate={handleNavigate} />
         </div>
       ) : route.type === 'publications' ? (
-        <div className="app-main-wrapper bg-[#080808] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
           <GlobalDotField />
           <PublicationsPage onNavigate={handleNavigate} />
         </div>
       ) : route.type === 'placements' ? (
-        <div className="app-main-wrapper bg-[#08080c] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#08080c] relative min-h-screen pb-20">
           <GlobalDotField />
           <PlacementsPage onNavigate={handleNavigate} />
         </div>
       ) : route.type === 'events' ? (
-        <div className="app-main-wrapper bg-[#0e0708] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#0e0708] relative min-h-screen pb-20">
           <GlobalDotField />
           <EventsPage onNavigate={handleNavigate} filterParam={route.filter} />
         </div>
       ) : route.type === 'achievements' ? (
-        <div className="app-main-wrapper bg-[#080808] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
           <GlobalDotField />
           <AchievementsPage onNavigate={handleNavigate} />
         </div>
       ) : route.type === 'faculty' ? (
-        <div className="app-main-wrapper bg-[#080808] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
           <GlobalDotField />
           <FacultyProfilePage slugOrName={route.slug} onNavigate={handleNavigate} />
         </div>
       ) : route.type === 'project' ? (
-        <div className="app-main-wrapper bg-[#080808] relative min-h-screen">
+        <div className="app-main-wrapper bg-[#080808] relative min-h-screen pb-20">
           <GlobalDotField />
           <ProjectDetailsPage projectId={route.id} onNavigate={handleNavigate} />
         </div>
       ) : (
         /* Default: Main Single-Page Website */
-        <div className="app-main-wrapper bg-[#080808] relative">
+        <div className="app-main-wrapper bg-[#080808] relative pb-20">
           {/* Interactive Video Intro (PC View Only) */}
           <IntroVideo />
 
@@ -255,6 +328,7 @@ export default function App() {
           </main>
         </div>
       )}
+      <BottomNav activeTab={currentActiveTab} />
       <PWAInstallPrompt />
     </ThemeProvider>
   );

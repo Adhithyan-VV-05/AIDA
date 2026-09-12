@@ -184,7 +184,7 @@ export default function Hero({ onExploreEventsClick }) {
   return (
     <section
       id="home"
-      className="min-h-screen relative flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-32 sm:pb-40 overflow-hidden max-w-7xl mx-auto text-neutral-950"
+      className="min-h-screen relative flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 pt-20 sm:pt-32 pb-36 sm:pb-40 overflow-hidden max-w-7xl mx-auto text-neutral-950"
     >
       <HeroDotField />
       <div className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[680px] bg-red-200/35 rounded-full blur-[180px] pointer-events-none -z-10" />
@@ -199,7 +199,7 @@ export default function Hero({ onExploreEventsClick }) {
         }}
       />
 
-      <div className="w-full flex flex-col items-center justify-center my-auto mt-[10vh]">
+      <div className="w-full flex flex-col items-center justify-center my-auto mt-[4vh] sm:mt-[10vh] pb-16 sm:pb-0">
         {/* Editorial title with interactive card stack showcase */}
         <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-8 lg:gap-6 text-center lg:text-left mb-12">
           {/* Bouncy Left Heading: Artificial Intelligence */}

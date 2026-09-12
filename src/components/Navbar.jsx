@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { siteConfig } from '../data/siteData';
 import SterlingGateKineticNavigation from './ui/sterling-gate-kinetic-navigation';
 import { useTheme } from '../context/ThemeContext';
-import { AnimatedThemeToggle } from './ui/animated-theme-toggle';
 
 const TAB_PHRASES = [
   'AIDA JECC',
@@ -131,15 +130,15 @@ export default function Navbar({ onVerifyClick }) {
 
   return (
     <>
-      {/* Top Left Bar: Brand Capsule (visible when menu is closed) */}
-      <div className="fixed top-5 left-4 sm:left-8 z-[9999] flex items-center pointer-events-auto">
+      {/* Top Left Bar: Apple Glass Brand Capsule (Hidden on mobile for clean app layout) */}
+      <div className="hidden md:flex fixed top-5 left-4 sm:left-8 z-[9999] items-center pointer-events-auto">
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault();
             scrollTo('home');
           }}
-          className={`flex items-center gap-2.5 bg-neutral-950/90 border border-red-900/40 px-3.5 sm:px-4 h-[2.75rem] rounded-full backdrop-blur-xl text-white shadow-2xl hover:border-red-600 hover:shadow-[0_0_22px_rgba(229,9,20,0.45)] hover:scale-[1.03] active:scale-95 transition-all duration-300 ${
+          className={`flex items-center gap-2.5 bg-neutral-950/70 border border-white/15 px-3.5 sm:px-4 h-[2.75rem] rounded-full backdrop-blur-3xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)] hover:border-white/30 hover:scale-[1.03] active:scale-95 transition-all duration-300 ${
             isMenuOpen
               ? 'opacity-0 pointer-events-none -translate-x-4 hidden'
               : 'opacity-100 pointer-events-auto translate-x-0'
@@ -156,7 +155,7 @@ export default function Navbar({ onVerifyClick }) {
         </a>
       </div>
 
-      {/* Universal Sterling Gate Kinetic Navigation (PC & Mobile View) */}
+      {/* Universal Sterling Gate Kinetic Navigation */}
       <SterlingGateKineticNavigation
         activeSection={activeSection}
         onSelect={(id) => scrollTo(id)}
@@ -166,6 +165,3 @@ export default function Navbar({ onVerifyClick }) {
     </>
   );
 }
-
-
-

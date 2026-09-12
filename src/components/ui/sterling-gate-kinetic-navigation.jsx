@@ -252,13 +252,13 @@ export function SterlingGateKineticNavigation({
 
   return (
     <div ref={containerRef} className="block">
-      {/* Fixed Header Bar with Floating Trigger Button */}
-      <div className="fixed right-4 sm:right-8 top-5 z-[9999] pointer-events-auto">
+      {/* Fixed Header Bar with Floating Trigger Button (Desktop Only) */}
+      <div className="hidden md:flex fixed right-4 sm:right-8 top-5 z-[9999] pointer-events-auto">
         <button
           type="button"
           onClick={toggleMenu}
           aria-label="Toggle Navigation Menu"
-          className="nav-close-btn flex items-center bg-neutral-900/90 backdrop-blur-md px-3.5 py-2 rounded-full border border-neutral-700/50 hover:bg-neutral-800 transition-colors shadow-lg cursor-pointer active:scale-95"
+          className="nav-close-btn flex items-center bg-neutral-950/70 backdrop-blur-3xl px-3.5 py-2 rounded-full border border-white/15 hover:border-white/30 transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)] cursor-pointer active:scale-95"
         >
           {/* Directional Vertical Reel Transition for Section Name */}
           {!isActive && (
